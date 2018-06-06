@@ -117,8 +117,10 @@ function exportSASSValue (vars, name, value) {
 // }
 
 function importSASSFile (start, deps, url, prev) {
+	// Mirror webpack config so sass ~theme imports work
+	const fixedUrl = url.replace(/~theme/, `${process.env.NODE_PATH}/src/style/theme`)
 	const prevDir = path.dirname(prev === 'stdin' ? start : prev)
-	const file = path.resolve(prevDir, url)
+	const file = path.resolve(prevDir, fixedUrl)
 	deps.push(file)
 	return {
 		file
